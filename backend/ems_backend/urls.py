@@ -9,6 +9,6 @@ urlpatterns = [
     # React root
     path("", TemplateView.as_view(template_name="index.html")),
 
-    # React routes fallback
-    re_path(r"^(?:.*)/?$", TemplateView.as_view(template_name="index.html")),
+    # React fallback ONLY for non-api, non-admin routes
+    re_path(r"^(?!admin|api).*$", TemplateView.as_view(template_name="index.html")),
 ]
