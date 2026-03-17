@@ -1,5 +1,5 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import {
   HiOutlineViewGrid,
   HiOutlineUsers,
@@ -11,21 +11,71 @@ import {
   HiOutlineMenu,
   HiOutlineX,
   HiOutlineSun,
-  HiOutlineMoon
-} from 'react-icons/hi';
-import { useState, useEffect } from 'react';
+  HiOutlineMoon,
+} from "react-icons/hi";
+import { useState, useEffect } from "react";
 
 const allNavItems = [
-  { path: '/', icon: HiOutlineViewGrid, label: 'Dashboard', roles: ['Admin', 'Manager', 'Employee'] },
-  { path: '/employees', icon: HiOutlineUsers, label: 'Employees', roles: ['Admin'] },
-  { path: '/team', icon: HiOutlineUsers, label: 'Team Members', roles: ['Manager'] },
-  { path: '/leaves', icon: HiOutlineCalendar, label: 'Leaves', roles: ['Admin'] },
-  { path: '/leave-requests', icon: HiOutlineCalendar, label: 'Leave Requests', roles: ['Manager'] },
-  { path: '/my-leaves', icon: HiOutlineCalendar, label: 'My Leaves', roles: ['Employee'] },
-  { path: '/tasks', icon: HiOutlineClipboardList, label: 'Tasks', roles: ['Admin', 'Manager'] },
-  { path: '/my-tasks', icon: HiOutlineClipboardList, label: 'My Tasks', roles: ['Employee'] },
-  { path: '/attendance', icon: HiOutlineClock, label: 'Attendance', roles: ['Admin', 'Employee'] },
-  { path: '/analytics', icon: HiOutlineChartSquareBar, label: 'Analytics', roles: ['Admin'] },
+  {
+    path: "/",
+    icon: HiOutlineViewGrid,
+    label: "Dashboard",
+    roles: ["Admin", "Manager", "Employee"],
+  },
+  {
+    path: "/employees",
+    icon: HiOutlineUsers,
+    label: "Employees",
+    roles: ["Admin"],
+  },
+  {
+    path: "/team",
+    icon: HiOutlineUsers,
+    label: "Team Members",
+    roles: ["Manager"],
+  },
+  {
+    path: "/leaves",
+    icon: HiOutlineCalendar,
+    label: "Leaves",
+    roles: ["Admin"],
+  },
+  {
+    path: "/leave-requests",
+    icon: HiOutlineCalendar,
+    label: "Leave Requests",
+    roles: ["Manager"],
+  },
+  {
+    path: "/my-leaves",
+    icon: HiOutlineCalendar,
+    label: "My Leaves",
+    roles: ["Employee"],
+  },
+  {
+    path: "/tasks",
+    icon: HiOutlineClipboardList,
+    label: "Tasks",
+    roles: ["Admin", "Manager"],
+  },
+  {
+    path: "/my-tasks",
+    icon: HiOutlineClipboardList,
+    label: "My Tasks",
+    roles: ["Employee"],
+  },
+  {
+    path: "/attendance",
+    icon: HiOutlineClock,
+    label: "Attendance",
+    roles: ["Admin", "Employee"],
+  },
+  {
+    path: "/analytics",
+    icon: HiOutlineChartSquareBar,
+    label: "Analytics",
+    roles: ["Admin"],
+  },
 ];
 
 export default function Layout({ children }) {
@@ -33,51 +83,69 @@ export default function Layout({ children }) {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
+    return localStorage.getItem("theme") === "dark";
   });
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add('dark-theme');
-      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add("dark-theme");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove('dark-theme');
-      localStorage.setItem('theme', 'light');
+      document.documentElement.classList.remove("dark-theme");
+      localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
-  const navItems = allNavItems.filter((item) => item.roles.includes(user?.role));
+  const navItems = allNavItems.filter((item) =>
+    item.roles.includes(user?.role),
+  );
 
   const roleBadge = () => {
     switch (user?.role) {
-      case 'Admin': return 'Administrator';
-      case 'Manager': return 'Manager';
-      case 'Employee': return 'Employee';
-      default: return 'User';
+      case "Admin":
+        return "Administrator";
+      case "Manager":
+        return "Manager";
+      case "Employee":
+        return "Employee";
+      default:
+        return "User";
     }
   };
 
   return (
     <div className="app-layout">
       {sidebarOpen && (
-        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+        <div
+          className="sidebar-overlay"
+          onClick={() => setSidebarOpen(false)}
+        />
       )}
 
-      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+      <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <NavLink to="/" className="logo">
             <div className="logo-main">
-              <img src="/provicore.png" alt="ProviCore" className="logo-icon" />
+              <img
+                src="static/provicore.png"
+                alt="ProviCore"
+                className="logo-icon"
+              />
               <span className="logo-text">ProviCore</span>
             </div>
-            <span className="logo-tagline">Smart Workforce Management Platform</span>
+            <span className="logo-tagline">
+              Smart Workforce Management Platform
+            </span>
           </NavLink>
-          <button className="sidebar-close" onClick={() => setSidebarOpen(false)}>
+          <button
+            className="sidebar-close"
+            onClick={() => setSidebarOpen(false)}
+          >
             <HiOutlineX />
           </button>
         </div>
@@ -87,9 +155,9 @@ export default function Layout({ children }) {
             <NavLink
               key={item.path}
               to={item.path}
-              end={item.path === '/'}
+              end={item.path === "/"}
               className={({ isActive }) =>
-                `nav-link ${isActive ? 'active' : ''}`
+                `nav-link ${isActive ? "active" : ""}`
               }
               onClick={() => setSidebarOpen(false)}
             >
@@ -102,7 +170,11 @@ export default function Layout({ children }) {
         <div className="sidebar-footer">
           <div className="user-info">
             <div className="user-avatar">
-              <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || user?.username || 'User')}&background=random`} alt="Avatar" style={{ borderRadius: '50%', width: '100%', height: '100%' }} />
+              <img
+                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || user?.username || "User")}&background=random`}
+                alt="Avatar"
+                style={{ borderRadius: "50%", width: "100%", height: "100%" }}
+              />
             </div>
             <div className="user-details">
               <span className="user-name">{user?.name || user?.username}</span>
@@ -122,22 +194,32 @@ export default function Layout({ children }) {
             <HiOutlineMenu />
           </button>
           <div className="topbar-right">
-            <button 
-              className="btn-icon" 
-              onClick={() => setIsDarkMode(!isDarkMode)} 
+            <button
+              className="btn-icon"
+              onClick={() => setIsDarkMode(!isDarkMode)}
               title="Toggle Theme"
-              style={{ marginRight: '1rem' }}
+              style={{ marginRight: "1rem" }}
             >
               {isDarkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
             </button>
             <span className="greeting">
               Welcome back, <strong>{user?.name || user?.username}</strong>
             </span>
-            <span className={`role-badge role-${user?.role?.toLowerCase()}`}>{user?.role}</span>
+            <span className={`role-badge role-${user?.role?.toLowerCase()}`}>
+              {user?.role}
+            </span>
           </div>
         </header>
         <div className="page-content">{children}</div>
-        <footer style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: 'auto' }}>
+        <footer
+          style={{
+            textAlign: "center",
+            padding: "1.5rem",
+            color: "var(--text-muted)",
+            fontSize: "0.8rem",
+            marginTop: "auto",
+          }}
+        >
           &copy; 2026 ProviCore EMS &ndash; Workforce Management Platform
         </footer>
       </main>
